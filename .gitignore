@@ -361,3 +361,39 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Ignorar archivos y carpetas de compilación
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.userprefs
+*.vscode/
+
+# Ignorar archivos temporales
+*~
+*.swp
+
+# Ignorar archivos de configuración específicos
+dotnet-format.settings.json
+
+# Ignorar archivos de configuración generados
+appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+
+# Ignorar archivos de dependencias y dependencias compiladas
+node_modules/
+packages/
+
+# Ignorar archivos generados por Visual Studio
+.vs/
+.vscode/
+*.sln.iml
+*.suo
+*.user
+*.ncrunchsolution
+*.dotCover
+
+# Ignorar archivos de registro
+*.log
