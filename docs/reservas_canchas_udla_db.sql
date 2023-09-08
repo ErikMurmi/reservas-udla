@@ -9,7 +9,7 @@ GO
 DROP TABLE IF EXISTS Usuario 
 GO
 CREATE TABLE Usuario (
-    ID INT PRIMARY KEY,
+    ID INT PRIMARY KEY IDENTITY(1,1),
     Email VARCHAR(100) NOT NULL, -- Reduced email length
     Password VARCHAR(255) NOT NULL,
     Nombre VARCHAR(255) NOT NULL,
