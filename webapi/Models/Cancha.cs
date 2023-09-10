@@ -8,5 +8,6 @@ namespace webapi.Models
         public TimeSpan Hora_fin { get; set; }
         public string Deporte { get; set; }
         public bool Habilitada { get; set; }
+        public Reserva ReservaID {get; set;}
     }
 }

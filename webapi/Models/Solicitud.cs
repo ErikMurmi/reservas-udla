@@ -7,5 +7,7 @@ namespace webapi.Models
         public DateTime Fecha { get; set; }
         public string Motivo { get; set; }
         public string Estado { get; set; }
+        public Usuario UsuarioID { get; set;}
+        public Reserva ReservaID { get; set; }
     }
 }
