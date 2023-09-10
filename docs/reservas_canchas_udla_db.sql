@@ -13,7 +13,7 @@ CREATE TABLE Usuario (
     Email VARCHAR(100) NOT NULL, -- Reduced email length
     Password VARCHAR(255) NOT NULL,
     Nombre VARCHAR(255) NOT NULL,
-    ID_Banner INT UNIQUE NOT NULL,
+    ID_Banner VARCHAR(9) UNIQUE NOT NULL,
     Carrera VARCHAR(50) NOT NULL -- Reduced Carrera length
 );
 
@@ -34,10 +34,12 @@ GO
 CREATE TABLE Solicitud (
     ID INT PRIMARY KEY,
     UsuarioID INT NOT NULL,
+    CanchaID INT NOT NULL,
     Fecha DATE NOT NULL,
     Motivo TEXT NOT NULL,
     Estado VARCHAR(10)  NOT NULL,
     CONSTRAINT usuarioFK FOREIGN KEY (UsuarioID) REFERENCES Usuario(ID),
+    CONSTRAINT canchaFK FOREIGN KEY (CanchaID) REFERENCES Cancha(ID),
 	CONSTRAINT estadosSolcitud CHECK (Estado IN ('Pendiente', 'Aceptada', 'Denegada'))
 );
 
@@ -52,7 +54,7 @@ CREATE TABLE Reserva (
     Hora_fin TIME NOT NULL,
     Estado VARCHAR(10) NOT NULL,
     CONSTRAINT solicitudFK FOREIGN KEY (SolicitudID) REFERENCES Solicitud(ID),
-	CONSTRAINT canchaFK FOREIGN KEY (CanchaID) REFERENCES Cancha(ID),
+	CONSTRAINT canchaFK2 FOREIGN KEY (CanchaID) REFERENCES Cancha(ID),
 	CONSTRAINT estadosReserva CHECK (Estado IN ( 'Aceptada', 'Cancelada'))
 );
 
