@@ -39,7 +39,7 @@ CREATE TABLE Solicitud (
     Motivo TEXT NOT NULL,
     Estado VARCHAR(10)  NOT NULL,
     CONSTRAINT usuarioFK FOREIGN KEY (UsuarioID) REFERENCES Usuario(ID),
-    CONSTRAINT canchaFK FOREIGN KEY (CanchaID) REFERENCES Cancha(ID),
+    CONSTRAINT solicitud_canchaFK FOREIGN KEY (CanchaID) REFERENCES Cancha(ID),
 	CONSTRAINT estadosSolcitud CHECK (Estado IN ('Pendiente', 'Aceptada', 'Denegada'))
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE Reserva (
     Hora_fin TIME NOT NULL,
     Estado VARCHAR(10) NOT NULL,
     CONSTRAINT solicitudFK FOREIGN KEY (SolicitudID) REFERENCES Solicitud(ID),
-	CONSTRAINT canchaFK2 FOREIGN KEY (CanchaID) REFERENCES Cancha(ID),
+	CONSTRAINT reserva_canchaFK FOREIGN KEY (CanchaID) REFERENCES Cancha(ID),
 	CONSTRAINT estadosReserva CHECK (Estado IN ( 'Aceptada', 'Cancelada'))
 );
 
