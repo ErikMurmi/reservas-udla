@@ -1,13 +1,25 @@
-namespace webapi.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace webapi.Models;
+
+public partial class Solicitud
 {
-    public class Solicitud
-    {
-        public int ID { get; set; }
-        public Usuario UsuarioID { get; set; }
-        public Cancha CanchaID { get; set; }
-        public DateOnly Fecha { get; set; }
-        public string Motivo { get; set; }
-        public string Estado { get; set; }
-        public Reserva Reserva { get; set; }
-    }
+    public int Id { get; set; }
+
+    public int UsuarioId { get; set; }
+
+    public int CanchaId { get; set; }
+
+    public DateTime Fecha { get; set; }
+
+    public string Motivo { get; set; } = null!;
+
+    public string Estado { get; set; } = null!;
+
+    public virtual Cancha Cancha { get; set; } = null!;
+
+    public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
+
+    public virtual Usuario Usuario { get; set; } = null!;
 }
