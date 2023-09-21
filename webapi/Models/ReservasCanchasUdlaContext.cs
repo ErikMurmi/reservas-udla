@@ -24,7 +24,7 @@ public partial class ReservasCanchasUdlaContext : DbContext
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=TITOJARAMILLO\\SQLEXPRESS;Database=ReservasCanchasUDLA;Trusted_Connection=True;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer(DotNetEnv.Env.GetString("CADENA_CONEXION"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
