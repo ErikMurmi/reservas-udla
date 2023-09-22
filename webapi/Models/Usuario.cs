@@ -1,16 +1,11 @@
-﻿using System;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace webapi.Models;
 
-public partial class Usuario
+public partial class Usuario : IdentityUser
 {
-    public int Id { get; set; }
-
-    public string Email { get; set; } = null!;
-
-    public string Password { get; set; } = null!;
-
     public string Nombre { get; set; } = null!;
 
     public string IdBanner { get; set; } = null!;
