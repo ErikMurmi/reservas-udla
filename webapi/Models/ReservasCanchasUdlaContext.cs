@@ -7,131 +7,108 @@ namespace webapi.Models;
 
 public partial class ReservasCanchasUdlaContext : IdentityDbContext
 {
+    public ReservasCanchasUdlaContext()
+    {
+    }
+
     public ReservasCanchasUdlaContext(DbContextOptions<ReservasCanchasUdlaContext> options)
         : base(options)
     {
     }
 
-    /* public virtual DbSet<Cancha> Canchas { get; set; }
+    public virtual DbSet<Usuario> Usuarios { get; set; }
+
+    public virtual DbSet<Cancha> Canchas { get; set; }
 
     public virtual DbSet<Reserva> Reservas { get; set; }
 
     public virtual DbSet<Solicitud> Solicituds { get; set; }
 
-    public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("CADENA_CONEXION"));
 
-
-    /* Revisar que sea de utilidad
-     
-     protected override void OnModelCreating(ModelBuilder modelBuilder)
-{
-    modelBuilder.Entity<Cancha>(entity =>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        entity.HasKey(e => e.Id).HasName("PK__Cancha__3214EC274BE2A40B");
 
-        entity.ToTable("Cancha");
+        modelBuilder.Entity<Cancha>(entity =>
+        {
+            entity.HasKey(e => e.Id);
 
-        entity.Property(e => e.Id)
-            .ValueGeneratedNever()
-            .HasColumnName("ID");
-        entity.Property(e => e.Campus)
-            .HasMaxLength(20)
-            .IsUnicode(false);
-        entity.Property(e => e.Deporte)
-            .HasMaxLength(255)
-            .IsUnicode(false);
-        entity.Property(e => e.HoraFin).HasColumnName("Hora_fin");
-        entity.Property(e => e.HoraInicio).HasColumnName("Hora_inicio");
-        entity.Property(e => e.Nombre)
-            .HasMaxLength(100)
-            .IsUnicode(false);
-    });
+            entity.ToTable("Cancha");
 
-    modelBuilder.Entity<Reserva>(entity =>
-    {
-        entity.HasKey(e => e.Id).HasName("PK__Reserva__3214EC274CE16FF3");
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever();
+            entity.Property(e => e.Campus)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Deporte)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            //.HasColumnName("Hora_fin")
+            entity.Property(e => e.HoraFin).HasColumnType("time(7)");
+            // .HasColumnName("Hora_inicio")
+            entity.Property(e => e.HoraInicio).HasColumnType("time(7)");
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+        });
 
-        entity.ToTable("Reserva");
+        modelBuilder.Entity<Reserva>(entity =>
+        {
+            entity.HasKey(e => e.Id);
 
-        entity.Property(e => e.Id).HasColumnName("ID");
-        entity.Property(e => e.CanchaId).HasColumnName("CanchaID");
-        entity.Property(e => e.Estado)
-            .HasMaxLength(10)
-            .IsUnicode(false);
-        entity.Property(e => e.Fecha).HasColumnType("date");
-        entity.Property(e => e.HoraFin).HasColumnName("Hora_fin");
-        entity.Property(e => e.HoraInicio).HasColumnName("Hora_inicio");
-        entity.Property(e => e.SolicitudId).HasColumnName("SolicitudID");
+            entity.ToTable("Reserva");
 
-        entity.HasOne(d => d.Cancha).WithMany(p => p.Reservas)
-            .HasForeignKey(d => d.CanchaId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("reserva_canchaFK");
+            entity.Property(e => e.Id);
+            entity.Property(e => e.UsuarioId);
+            entity.Property(e => e.SolicitudId);
+            entity.Property(e => e.CanchaId);
+            entity.Property(e => e.Estado)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.Fecha).HasColumnType("date");
+            entity.Property(e => e.HoraFin).HasColumnType("time(7)");
+            entity.Property(e => e.HoraInicio).HasColumnType("time(7)");
+            
 
-        entity.HasOne(d => d.Solicitud).WithMany(p => p.Reservas)
-            .HasForeignKey(d => d.SolicitudId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("solicitudFK");
-    });
+            entity.HasOne(e => e.Usuario).WithMany(p => p.Reservas)
+                .HasForeignKey(d => d.UsuarioId);
 
-    modelBuilder.Entity<Solicitud>(entity =>
-    {
-        entity.HasKey(e => e.Id).HasName("PK__Solicitu__3214EC278C88324B");
+            entity.HasOne(d => d.Cancha).WithMany(p => p.Reservas)
+                .HasForeignKey(d => d.CanchaId);
 
-        entity.ToTable("Solicitud");
+            entity.HasOne(d => d.Solicitud).WithOne(p => p.Reserva)
+                .HasForeignKey<Reserva>(d => d.SolicitudId);
+        });
 
-        entity.Property(e => e.Id).HasColumnName("ID");
-        entity.Property(e => e.CanchaId).HasColumnName("CanchaID");
-        entity.Property(e => e.Estado)
-            .HasMaxLength(10)
-            .IsUnicode(false);
-        entity.Property(e => e.Fecha).HasColumnType("date");
-        entity.Property(e => e.Motivo).HasColumnType("text");
-        entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
+        modelBuilder.Entity<Solicitud>(entity =>
+        {
+            entity.HasKey(e => e.Id);
 
-        entity.HasOne(d => d.Cancha).WithMany(p => p.Solicituds)
-            .HasForeignKey(d => d.CanchaId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("solicitud_canchaFK");
+            entity.ToTable("Solicitud");
 
-        entity.HasOne(d => d.Usuario).WithMany(p => p.Solicituds)
-            .HasForeignKey(d => d.UsuarioId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("usuarioFK");
-    });
+            entity.Property(e => e.Id);
+            entity.Property(e => e.UsuarioId);
+            entity.Property(e => e.CanchaId);
+            entity.Property(e => e.Fecha).HasColumnType("date");
+            entity.Property(e => e.HoraFin).HasColumnType("time(7)");
+            entity.Property(e => e.HoraInicio).HasColumnType("time(7)");
+            entity.Property(e => e.Motivo).HasColumnType("text");
+            // No se como poner el constraint aquí, así que lo haré desde la api
+            entity.Property(e => e.Estado)
+                .HasMaxLength(10)
+                .IsUnicode(false);
 
-    modelBuilder.Entity<Usuario>(entity =>
-    {
-        entity.HasKey(e => e.Id).HasName("PK__Usuario__3214EC270F25C7A7");
+            entity.HasOne(d => d.Cancha).WithMany(p => p.Solicituds)
+                .HasForeignKey(d => d.CanchaId);
 
-        entity.ToTable("Usuario");
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Solicituds)
+                .HasForeignKey(d => d.UsuarioId);
+        });
 
-        entity.HasIndex(e => e.IdBanner, "UQ__Usuario__C15351B36B811CC5").IsUnique();
-
-        entity.Property(e => e.Id).HasColumnName("ID");
-        entity.Property(e => e.Carrera)
-            .HasMaxLength(50)
-            .IsUnicode(false);
-        entity.Property(e => e.Email)
-            .HasMaxLength(100)
-            .IsUnicode(false);
-        entity.Property(e => e.IdBanner)
-            .HasMaxLength(9)
-            .IsUnicode(false)
-            .HasColumnName("ID_Banner");
-        entity.Property(e => e.Nombre)
-            .HasMaxLength(255)
-            .IsUnicode(false);
-        entity.Property(e => e.Password)
-            .HasMaxLength(255)
-            .IsUnicode(false);
-    });
-
-    OnModelCreatingPartial(modelBuilder);
-}
+        OnModelCreatingPartial(modelBuilder);
+    }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-     
-     */
 }
