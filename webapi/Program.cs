@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using webapi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Inyección de dependencias
-builder.Services.AddTransient<ReservasCanchasUdlaContext>();
+//builder.Services.AddTransient<ReservasCanchasUdlaContext>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -15,6 +16,10 @@ builder.Services.AddSwaggerGen();
 
 // Carga de las variables de entorno desde archivo .env
 DotNetEnv.Env.Load();
+
+// Contexto de la base de datos
+builder.Services.AddDbContext<ReservasCanchasUdlaContext>(options
+    => options.UseSqlServer(DotNetEnv.Env.GetString("CADENA_CONEXION")));
 
 // Agregar el servicio Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ReservasCanchasUdlaContext>();

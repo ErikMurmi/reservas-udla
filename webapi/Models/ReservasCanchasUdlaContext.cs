@@ -12,7 +12,7 @@ public partial class ReservasCanchasUdlaContext : IdentityDbContext
     {
     }
 
-    public virtual DbSet<Cancha> Canchas { get; set; }
+    /* public virtual DbSet<Cancha> Canchas { get; set; }
 
     public virtual DbSet<Reserva> Reservas { get; set; }
 
@@ -20,8 +20,7 @@ public partial class ReservasCanchasUdlaContext : IdentityDbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(DotNetEnv.Env.GetString("CADENA_CONEXION"));
+
 
     /* Revisar que sea de utilidad
      
