@@ -402,4 +402,5 @@ packages/
 .env
 
 # Archivo de futura guía de la API
-docs/tito.md
+./docs/tito.md
+/docs/tito.md
