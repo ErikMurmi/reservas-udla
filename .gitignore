@@ -397,3 +397,9 @@ packages/
 
 # Ignorar archivos de registro
 *.log
+
+# Ignorar archivos de variables de entorno
+.env
+
+# Archivo de futura guía de la API
+docs/tito.md

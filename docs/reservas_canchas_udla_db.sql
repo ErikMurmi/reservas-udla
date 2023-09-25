@@ -47,6 +47,7 @@ DROP TABLE IF EXISTS Reserva
 GO
 CREATE TABLE Reserva (
     ID INT PRIMARY KEY,
+    UsuarioID INT NOT NULL,
     SolicitudID INT NOT NULL,
     CanchaID INT NOT NULL,
     Fecha DATE NOT NULL,

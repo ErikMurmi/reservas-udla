@@ -1,13 +1,19 @@
-namespace webapi.Models
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace webapi.Models;
+
+public partial class Usuario : IdentityUser
 {
-    public class Usuario
-    {
-        public int ID { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Nombre { get; set; }
-        public int ID_Banner { get; set; }
-        public string Carrera { get; set; }
-        public Solicitud Solicitud { get; set; }
-    }
+    [Required]
+    [MaxLength(255)]
+    public string Nombre { get; set; } = null!;
+    [Required]
+    [MaxLength(9)]
+    public string IdBanner { get; set; } = null!;
+    [Required]
+    [MaxLength(50)]
+    public string Carrera { get; set; } = null!;
 }
