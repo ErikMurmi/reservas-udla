@@ -43,7 +43,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 
     }
     )
-    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ReservasCanchasUdlaContext>()
     .AddDefaultTokenProviders();
 

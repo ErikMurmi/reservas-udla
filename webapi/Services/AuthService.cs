@@ -14,7 +14,7 @@ public interface IAuthService
 {
     Task<bool> RegistrarUsuario(RegistroUsuarioView usuario);
     Task<bool> Login(LoginUsuarioView usuario);
-    string generateTokenString(LoginUsuarioView usuario);
+    Task<string> generateTokenString(LoginUsuarioView usuario);
 }
 
 public class AuthService : IAuthService
@@ -44,6 +44,11 @@ public class AuthService : IAuthService
 
         var result = await _userManager.CreateAsync(datosUsuario, usuario.Password);
 
+        if(result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync( datosUsuario ,"User");
+        }
+
         return result.Succeeded;
     }
 
@@ -58,14 +63,30 @@ public class AuthService : IAuthService
         return await _userManager.CheckPasswordAsync(datosLogin, usuario.Password);
     }
 
-    public string generateTokenString(LoginUsuarioView usuario)
+    public async Task<string> generateTokenString(LoginUsuarioView usuario)
     {
-        // Una vez estén añadidos los roles cambiar "Usuario" por 
+        // Obtener los roles del usuario para añadirlo al claim
+        var user = await _userManager.FindByEmailAsync(usuario.Email);
+        var roles = _userManager.GetRolesAsync(user);
+
+        var sRoles = "";
+        int i = 0;
+
+        foreach (var role in roles.Result)
+        {
+            if (i != 0)
+            {
+                sRoles += ",";
+            }
+            sRoles += role;
+            i++;
+        }
+
+        // Configuración de los claims para el token
         IEnumerable<System.Security.Claims.Claim> claims = new List<Claim>
         {
             new Claim(ClaimTypes.Email, usuario.Email),
-            new Claim(ClaimTypes.Role, "Usuario" )
-
+            new Claim(ClaimTypes.Role, sRoles)
         };
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("KEY")));

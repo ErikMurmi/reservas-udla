@@ -3,19 +3,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace webapi.Controllers
 {
-    [Authorize]
+    [Route("/[controller]")]
+    [ApiController]
     public class AuthTestController : Controller
     {
+        [Authorize(Roles = "Admin")]
         [HttpGet("Admin")]
         public string Admin()
         {
             return "Admin Allowed";
         }
 
-        [HttpGet("User")]
-        public string User()
+        [Authorize(Roles = "User")]
+        [HttpGet("Usuario")]
+        public string Usuario()
         {
             return "Hi there!";
+        }
+
+        [HttpGet("Autorizado")]
+        public string Autorizado()
+        {
+            return "Estás autorizado!";
         }
     }
 }

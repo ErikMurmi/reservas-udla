@@ -6,7 +6,7 @@ using webapi.Views;
 
 namespace webapi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/[controller]")]
     [ApiController]
 
     public class UsuarioController : Controller
